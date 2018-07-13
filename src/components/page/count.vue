@@ -9,8 +9,10 @@
       <!-- 店铺信息 -->
       <div class="count_good_top"  v-for="( item,index ) in List" :key="item.index">
         <!-- <input type="radio" class="count_good_choose"/> -->
-        <Checkbox :checked.sync="single" class="count_good_choose"></Checkbox>
-        <img src="../../../dist/static/img/head.d1a22a8.jpg" class="count_img">
+        <Checkbox :checked.sync="single" class="count_good_choose" 
+        
+        ></Checkbox>
+        <img src="" class="count_img">
         <span class="count_good_name">
           {{item.count_good_content}}
         </span>
@@ -20,7 +22,10 @@
       </div>
       <!-- 同店铺商品 -->
       <div class="count_good_content" v-for="( item,index ) in goodsList" :key="item.index">
-        <input type="radio" class="count_good_content_radio" @change="choose(index)">
+        <!-- <input type="radio" class="count_good_content_radio" @change="choose(index)"> -->
+        <Checkbox class="count_good_content_radio"
+       
+        ></Checkbox>
         <!-- <Checkbox :checked.sync="single1" class="count_good_choose"></Checkbox> -->
         <img src="../../assets/img/count_head.jpg" class="count_good_content_img"/>
         <div class="count_good_content_top">
@@ -66,10 +71,11 @@
     <!-- footer -->
     <div class="footer">
       <div class="footer_top">
-        <input type="radio" class="footer_inp"/>
+        <Checkbox :checked.sync="single" class="footer_inp"></Checkbox>
+        <!-- <input type="radio" class="footer_inp"/> -->
         <span class="allChoose">全选</span>
         <span class="allAdd">合计:</span>
-        <span class="result">￥{{result}}</span>
+        <span class="result">￥{{$store.state.count}}</span>
         <span class="winup">结算({{winup}})</span>
       </div>
     </div>
@@ -279,7 +285,7 @@ header{
 .footer_inp{
   width: 0.48rem;
   height: 0.48rem;
-  background: silver;
+  /*background: silver;*/
   position: absolute;
   top: 0.426667rem;
   left: 0.373333rem;
@@ -323,6 +329,8 @@ header{
 }
 </style>
 <script>
+import store from '../../store/store'
+import {mapState,mapMutations,mapGetters,mapActions} from 'vuex'
 export default {
   data(){
     return {
@@ -333,6 +341,7 @@ export default {
       control: '管理',//管理 ,
       result: '0',//合计
       winup: '0',//结算
+      // choose: false,
       op: null,
       single: false,
       List:[
@@ -378,12 +387,22 @@ export default {
       ]
     }
   },
+  mounted(){
+    
+  },
   methods:{
     // 点击+号
     add(index){
       let self = this;
-      console.log(index);
+      // console.log(index);
       self.goodsList[index].result++; //点击+1
+      // console.log(self.goodsList[index].price);
+      let op = self.goodsList[index].price;
+      // console.log(op);
+      
+      self.goodsList[index].price = op * self.goodsList[index].result;
+      // console.log(self.goodsList[index].price);
+
     },
     //点击减号
     subtract(index){
@@ -399,6 +418,14 @@ export default {
       console.log(self.goodsList[index].result);
       console.log(self.goodsList[index].price);
       self.goodsList[index].price = parseInt(self.goodsList[index].price) * parseInt(self.goodsList[index].result);
+    },
+    handleCheckAll(){
+      if (this.indeterminate) {
+            this.checkAll = false;
+        } else {
+            this.checkAll = !this.checkAll;
+        }
+        this.indeterminate = false;
     }
   }
 }

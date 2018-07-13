@@ -6,29 +6,31 @@ Vue.use(Vuex);
 
 // 数据存储
 const state = {
-	count: 1,
+	count: 10,
+	account: '', //合计总价
 };
 // 处理数据的方法
 const mutations = {
-	add(state){
-		state.count+=1;
+	add(state) {
+		state.count += 1;
+		console.log(this.state.count);
 	},
-	reduce(state){
-		state.count-=1;
+	reduce(state) {
+		state.count -= 1;
 	},
 };
 // 过滤条件
 const getters = {
-	count:function(state){
-		return state.count +=3;
+	count: function(state) {
+		return state.count += 3;
 	},
 };
 // 异步处理数据的方法
 const actions = {
-	addAction(context){
-		context.commit('add',10);
+	addAction(context) {
+		context.commit('add', 10);
 	},
-	reduceAction(commit){
+	reduceAction(commit) {
 		commit('reduce');
 	},
 };
@@ -37,4 +39,4 @@ export default new Vuex.Store({
 	mutations,
 	getters,
 	actions,
-})store.js
+});

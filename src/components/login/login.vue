@@ -4,7 +4,7 @@
   	<!-- header -->
   	<div class="login_head">
   		<!-- 头像 -->
-  		<div class="login_head_img">
+  		<div class="login_head_img" @click="head()">
   			<img src="../../assets/img/count_head.jpg" class="login_head_img" />
   		</div>
   	</div>
@@ -21,7 +21,9 @@
   	<!-- 登录按钮 -->
   	<div class="login_login" @click="tohome()">{{login}}</div>
   	<!-- 忘记密码 -->
-  	<div class="login_forget" @click="tofoget()">{{login_forget}}</div>
+  	<div class="login_forget">
+      <span @click="instance('info')">{{login_forget}}</span>
+    </div>
   </div>
 </template>
 <style scoped>
@@ -30,6 +32,10 @@
    width: 100%;
    height: 17.786667rem;
    background: rgb(107,186,225);
+}
+.ivu-modal-body .ivu-btn-primary{
+  background-color: rgb(107,186,225) !important;
+  border: none;
 }
 /*头像*/
 .login_head{
@@ -118,27 +124,61 @@ export default {
     	login_forget: '忘记密码？', //忘记密码按钮
     	username: '',  //账号value
     	password: '',  //密码value
+      modal7: true,
+      modal8: true, //弹窗
     }
   },
   methods:{
   	// 点击登录
    tohome(){
+        console.log('点击了登录');
    	  	let reg=11 && /^((13|14|15|17|18)[0-9]{1}\d{8})$/; //手机号正则验证
    	  	if( this.username == '' || this.password == ''){ //用户名为空或者密码为空
+          // const title = '格式';
+          const content = '<p style="text-align: center; ">请输入账号</p>';
    	  		console.log('请输入正确的手机号或密码');
+          this.$Modal.info({
+          // title: title,
+          content: content
+      });
    	  	}else if(!reg.test(this.username)){  //检测手机号格式
+          const content = '<p style="text-align: center; ">请输入正确的密码格式</p>';
    	  		console.log('手机号码或密码格式不正确')
    	  	}else{
-   	  		this.$router.push('/index');
+   	  		this.$router.push('/shoplist');
    	  	};
-   },
-   //点击忘记密码
-   tofoget(){
-   		alert('你他妈忘了还有脸？');
    },
    changeuser(){
    		// console.log(this.username)
-   }
+   },
+   // 点击忘记密码
+   instance (type){
+    const title = '忘了密码了？';
+    const content = '<p>此密码无法找回</p>';
+    switch (type){
+       case 'info':
+      this.$Modal.info({
+          title: title,
+          content: content
+      });
+      break;
+    }
+   },
+   //数组反转
+   // head(){
+   //  let arr = ['1', '5', '7' ,'9', 11];
+   //  console.log(arr.reverse());
+   // },
+   //splice(从数组下标开始删除，接受两个参数，第二个删除的个数，第一个开始的下标)
+   // head(){
+   //  let arr = ['1', '5', '7' ,'9', 11];
+   //  console.log(arr.splice(2,2));
+   // },
+   //join-----添加拼接符
+   head(){
+      let arr = ['1', '5', '7' ,'9', 11];
+      console.log(arr.join('--'));
+   },
   }
 }
 </script>

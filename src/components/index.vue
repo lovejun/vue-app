@@ -56,7 +56,7 @@
             <div>收藏</div>
           </div>
         </div>
-        <div class='footer_center' @click="toGoodsCar()">
+        <div class='footer_center' @click="addcar('info')">
           <div>{{footer_center2}}</div>
         </div>
         <div class='footer_center1'>
@@ -264,8 +264,8 @@ export default {
   },
    methods:{
       //点击加入购物车
-      toGoodsCar(){
-        this.$router.push('/count');
+      addcar(type){
+         
       }
     }
 }
